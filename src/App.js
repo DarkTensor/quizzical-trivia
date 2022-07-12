@@ -1,5 +1,19 @@
 import React from "react";
+import StartScreen from "./components/StartScreen";
+import GameScreen from "./components/GameScreen";
 
 export default function App(){
-    return <h1>Test</h1>
+    const [beginGameState, setBeginGameState] = React.useState(false)
+
+    function handleClick(){
+        setBeginGameState(true)
+     }
+
+
+    return (
+        <>
+            {!beginGameState && <StartScreen handleClick={handleClick}/>}
+            {beginGameState && <GameScreen/>}
+        </>
+    )
 }
