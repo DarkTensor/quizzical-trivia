@@ -8,6 +8,7 @@
 body{
     background-image: url("./images/background-image.png");
     background-size: cover;
+    background-repeat: no-repeat;
 }
 
 .start-screen-container{
@@ -38,4 +39,10 @@ body{
     padding: 16px 50px;
     font-size: 16px;
     cursor: pointer;
+}
+
+.game-screen-container{
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
 }
