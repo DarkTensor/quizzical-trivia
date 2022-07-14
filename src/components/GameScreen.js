@@ -4,6 +4,8 @@ import { nanoid } from "nanoid";
 
 export default function GameScreen(){
     const [questionList, setQuestionList] = React.useState()
+    const [check, setCheck] = React.useState(false)
+    const [playAnother, setPlayAnother] = React.useState(false)
 
     React.useEffect(() => {
         fetch("https://opentdb.com/api.php?amount=5")
@@ -11,7 +13,7 @@ export default function GameScreen(){
         .then(data => {
             setQuestionList(data.results)
         })
-    },[])
+    },[playAnother])
 
     function shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
@@ -44,11 +46,26 @@ export default function GameScreen(){
         })   
     }
 
+    let numberOfCorrect = 0
+
+    function checkAnswers(){
+        
+    }
+
+    function playAgain(){
+        setPlayAnother(old => !old)
+        setCheck(old => !old)
+    }
+
+    function checkOn(){
+        setCheck(old => !old)
+    }
 
     return (
         <div className="game-screen-container">
             {questionElements}
-            <button className="check-answer-button">Check Answers</button>
+            {!check && <button onClick={checkOn} className="check-answer-button">Check Answers</button>}
+            {check && <div className="check-container"><p className="number-of-correct-text">You scored {3}/5 correct answers</p><button onClick={playAgain} className="play-again-button">Play Again</button></div>}
         </div>
     )
 }

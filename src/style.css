@@ -86,7 +86,16 @@ body{
     border-radius: 10px;
     font-size: 12px;
     cursor: pointer;
-    margin-top: 17px;
+}
+
+.play-again-button{
+    background-color: #4D5B9E;
+    color: #F6F7FB;
+    border: none;
+    padding: 13px 28px;
+    border-radius: 10px;
+    font-size: 12px;
+    cursor: pointer;
 }
 
 .selected-answer{
@@ -97,4 +106,17 @@ body{
     color: #293264;
     cursor: pointer;
     font-size: 12px;
+}
+
+.check-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 17px;
+}
+
+.number-of-correct-text{
+    font-size: 14px;
+    color: #293264
 }
