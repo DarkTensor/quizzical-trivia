@@ -13,6 +13,14 @@ export default function GameScreen(){
         })
     },[])
 
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array
+    }
+
     // This function decodes HTML encoding
     function decodeHtml(html) {
         let txt = document.createElement("textarea");
@@ -24,16 +32,18 @@ export default function GameScreen(){
 
     if (questionList !== undefined) {
         questionList.map(ele => {
-            return questionElements.push(
+                let choices = [ele.correct_answer, ...ele.incorrect_answers]
+                shuffleArray(choices)
+                questionElements.push(
                 <Question
                     key={nanoid()}
                     question={decodeHtml(ele.question)} 
-                    correctAnswer={decodeHtml(ele.correct_answer)}
-                    incorrectAnswers={(ele.incorrect_answers)}
-                />
-            )
+                    answerChoices={choices}
+                />)
+            
         })   
     }
+
 
     return (
         <div className="game-screen-container">

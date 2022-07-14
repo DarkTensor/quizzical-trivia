@@ -3,32 +3,24 @@ import { nanoid } from "nanoid";
 
 export default function Question(props){
 
-    const [choices, setChoices] = React.useState([{text:props.correctAnswer,selected:false},
-                                                  {text:props.incorrectAnswers[0],selected:false},
-                                                  {text:props.incorrectAnswers[1],selected:false},
-                                                  {text:props.incorrectAnswers[2],selected:false}])
+    const [choices, setChoices] = React.useState([{text:props.answerChoices[0],selected:false},
+                                                  {text:props.answerChoices[1],selected:false},
+                                                  {text:props.answerChoices[2],selected:false},
+                                                  {text:props.answerChoices[3],selected:false}])
     
-    function shuffleArray(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
-        return array
-    }
+   
 
     function toggleSelected(text){
         setChoices(oldValues => {
             return oldValues.map(val => {
                 return (val.text === text ? 
-                        {...val, selected:!val.selected} : 
+                        {text:val.text, 
+                         selected:!val.selected, 
+                        } : 
                         val)
             })
         })
     }
-
-    React.useEffect(() => {
-        shuffleArray(choices)
-    },[])
 
     console.log(choices)
     
@@ -36,7 +28,7 @@ export default function Question(props){
     let buttonContainer = []
 
     choices.map(ele => {
-        return buttonContainer.push(<button onClick={() => toggleSelected(ele.text)} key={nanoid()} className="choice">{ele.text}</button>)
+        return buttonContainer.push(<button onClick={() => toggleSelected(ele.text)} key={nanoid()} className={!ele.selected ? 'choice' : 'selected-answer'}>{ele.text}</button>)
     })
 
     return (
