@@ -88,3 +88,13 @@ body{
     cursor: pointer;
     margin-top: 17px;
 }
+
+.selected-answer{
+    padding: 4px 30px;
+    border: none;
+    border-radius: 10px;
+    background-color: #D6DBF5;
+    color: #293264;
+    cursor: pointer;
+    font-size: 12px;
+}

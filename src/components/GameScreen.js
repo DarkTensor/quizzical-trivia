@@ -24,7 +24,7 @@ export default function GameScreen(){
 
     if (questionList !== undefined) {
         questionList.map(ele => {
-            questionElements.push(
+            return questionElements.push(
                 <Question
                     key={nanoid()}
                     question={decodeHtml(ele.question)} 
