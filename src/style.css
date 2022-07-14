@@ -46,3 +46,16 @@ body{
     min-height: 100vh;
     flex-direction: column;
 }
+
+.question-container{
+    margin: 20px 50px;
+}
+
+.question{
+    color: #293264;
+    font-size: 18px;
+}
+
+.choices{
+    padding: 20px;
+}

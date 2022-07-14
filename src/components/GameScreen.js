@@ -1,5 +1,6 @@
 import React from "react";
 import Question from "./Question";
+import { nanoid } from "nanoid";
 
 export default function GameScreen(){
     const [questionList, setQuestionList] = React.useState()
@@ -12,16 +13,32 @@ export default function GameScreen(){
         })
     },[])
 
-    if (questionList !== undefined)
-    {
-        console.log(questionList[0].question)
+    // This function decodes HTML encoding
+    function decodeHtml(html) {
+        let txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return txt.value;
+    }    
+
+    let questionElements = []
+
+    if (questionList !== undefined) {
+        questionList.map(ele => {
+            console.log(ele.incorrect_answers)
+            questionElements.push(
+                <Question
+                    key={nanoid()}
+                    question={decodeHtml(ele.question)} 
+                    correctAnswer={ele.correct_answer}
+                    incorrectAnswers={ele.incorrect_answers}
+                />
+            )
+        })   
     }
 
     return (
         <div className="game-screen-container">
-            <Question 
-            
-            />
+            {questionElements}
         </div>
     )
 }
