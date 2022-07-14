@@ -24,13 +24,12 @@ export default function GameScreen(){
 
     if (questionList !== undefined) {
         questionList.map(ele => {
-            console.log(ele.incorrect_answers)
             questionElements.push(
                 <Question
                     key={nanoid()}
                     question={decodeHtml(ele.question)} 
-                    correctAnswer={ele.correct_answer}
-                    incorrectAnswers={ele.incorrect_answers}
+                    correctAnswer={decodeHtml(ele.correct_answer)}
+                    incorrectAnswers={(ele.incorrect_answers)}
                 />
             )
         })   
@@ -39,6 +38,7 @@ export default function GameScreen(){
     return (
         <div className="game-screen-container">
             {questionElements}
+            <button className="check-answer-button">Check Answers</button>
         </div>
     )
 }
