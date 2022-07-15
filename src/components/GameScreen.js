@@ -11,9 +11,25 @@ export default function GameScreen(){
         fetch("https://opentdb.com/api.php?amount=5")
         .then(res => res.json())
         .then(data => {
-            setQuestionList(data.results)
+            setQuestionList((data.results).map(ele => {
+                return {question:decodeHtml(ele.question),
+                        choices:shuffleArray([
+                        {text:decodeHtml(ele.correct_answer),selected:false},
+                        {text:decodeHtml(ele.incorrect_answers[0]),selected:false},
+                        {text:decodeHtml(ele.incorrect_answers[1]),selected:false},
+                        {text:decodeHtml(ele.incorrect_answers[2]),selected:false}])}
+            }))
         })
     },[playAnother])
+
+    
+
+    // This function decodes HTML encoding
+    function decodeHtml(html) {
+        let txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return txt.value;
+    }    
 
     function shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
@@ -23,34 +39,30 @@ export default function GameScreen(){
         return array
     }
 
-    // This function decodes HTML encoding
-    function decodeHtml(html) {
-        let txt = document.createElement("textarea");
-        txt.innerHTML = html;
-        return txt.value;
-    }    
 
     let questionElements = []
-
     if (questionList !== undefined) {
         questionList.map(ele => {
-                let choices = [ele.correct_answer, ...ele.incorrect_answers]
-                shuffleArray(choices)
                 questionElements.push(
                 <Question
                     key={nanoid()}
-                    question={decodeHtml(ele.question)} 
-                    answerChoices={choices}
-                />)
-            
+                    question={ele.question} 
+                    answerChoices={ele.choices}
+                    toggleSelected={toggleSelected}
+                    id={nanoid()}
+                />)       
         })   
     }
 
-    let numberOfCorrect = 0
-
-    function checkAnswers(){
-        
-    }
+    function toggleSelected(e, question){
+        setQuestionList(oldVals => {
+            return oldVals.map(ele => {
+                return ele.question === question ? {...ele,choices:ele.choices.map(val => {
+                    return val.text === e.target.innerHTML ? {...val, selected:!val.selected} : val
+                })} : ele
+            })
+        })
+    }    
 
     function playAgain(){
         setPlayAnother(old => !old)
