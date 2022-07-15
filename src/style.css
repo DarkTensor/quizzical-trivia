@@ -121,3 +121,12 @@ body{
     font-size: 14px;
     color: #293264
 }
+
+.correct-answer{
+    padding: 4px 30px;
+    border: none;
+    border-radius: 10px;
+    background-color: #94D7A2;
+    color: #293264;
+    font-size: 12px;
+}

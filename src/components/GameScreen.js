@@ -4,7 +4,7 @@ import { nanoid } from "nanoid";
 
 export default function GameScreen(){
     const [questionList, setQuestionList] = React.useState()
-    const [check, setCheck] = React.useState(false)
+    const [check, setCheck] = React.useState([{bool:false},{num:0}])
     const [playAnother, setPlayAnother] = React.useState(false)
 
     React.useEffect(() => {
@@ -17,7 +17,8 @@ export default function GameScreen(){
                         {text:decodeHtml(ele.correct_answer),selected:false},
                         {text:decodeHtml(ele.incorrect_answers[0]),selected:false},
                         {text:decodeHtml(ele.incorrect_answers[1]),selected:false},
-                        {text:decodeHtml(ele.incorrect_answers[2]),selected:false}])}
+                        {text:decodeHtml(ele.incorrect_answers[2]),selected:false}]),
+                        correct:decodeHtml(ele.correct_answer)}
             }))
         })
     },[playAnother])
@@ -49,7 +50,8 @@ export default function GameScreen(){
                     question={ele.question} 
                     answerChoices={ele.choices}
                     toggleSelected={toggleSelected}
-                    id={nanoid()}
+                    checkOn={check[0].bool}
+                    correct={ele.correct}
                 />)       
         })   
     }
@@ -66,18 +68,36 @@ export default function GameScreen(){
 
     function playAgain(){
         setPlayAnother(old => !old)
-        setCheck(old => !old)
+        setCheck(old => {
+            return [{bool:!old[0].bool},{...old[1]}]
+        })
     }
 
     function checkOn(){
-        setCheck(old => !old)
+        setCheck(old => {
+            return [{bool:!old[0].bool},{num:checkCorrect()}]
+        })
+    }
+
+    function checkCorrect(){
+        let correct = 0
+        for (let i = 0; i < questionList.length; i++) {
+            const element = questionList[i]
+            for (let i = 0; i < element.choices.length; i++) {
+                const choices = element.choices[i]
+                if (choices.selected && choices.text === element.correct) {
+                    correct++
+                }
+            }
+        }
+        return correct
     }
 
     return (
         <div className="game-screen-container">
             {questionElements}
-            {!check && <button onClick={checkOn} className="check-answer-button">Check Answers</button>}
-            {check && <div className="check-container"><p className="number-of-correct-text">You scored {3}/5 correct answers</p><button onClick={playAgain} className="play-again-button">Play Again</button></div>}
+            {!check[0].bool && <button onClick={checkOn} className="check-answer-button">Check Answers</button>}
+            {check[0].bool && <div className="check-container"><p className="number-of-correct-text">You scored {check[1].num}/5 correct answers</p><button onClick={playAgain} className="play-again-button">Play Again</button></div>}
         </div>
     )
 }
