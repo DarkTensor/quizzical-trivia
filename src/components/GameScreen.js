@@ -57,7 +57,7 @@ export default function GameScreen(){
     function toggleSelected(e, question){
         setQuestionList(oldVals => {
             return oldVals.map(ele => {
-                return ele.question === question ? {...ele,choices:ele.choices.map(val => {
+                return ele.question === question && ele.choices.map(bool => bool.selected = false) ? {...ele,choices:ele.choices.map(val => {
                     return val.text === e.target.innerHTML ? {...val, selected:!val.selected} : val
                 })} : ele
             })
