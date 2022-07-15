@@ -6,7 +6,7 @@ export default function Question(props){
     let buttonContainer = []
 
     props.answerChoices.map(ele => {
-        return (ele.text !== 'undefined' && buttonContainer.push(<button key={nanoid()} onClick={(e) => props.toggleSelected(e, props.question)} className={!props.chechOn && ele.selected ? 'selected-answer' : props.checkOn && props.correct === ele.text ? 'correct-answer' : 'choice'}>{ele.text}</button>))
+        return (ele.text !== 'undefined' && buttonContainer.push(<button key={nanoid()} onClick={(e) => props.toggleSelected(e, props.question)} disabled={props.checkOn && 'disabled'} className={!props.chechOn && ele.selected ? 'selected-answer' : props.checkOn && props.correct === ele.text ? 'correct-answer' : 'choice'}>{ele.text}</button>))
     })
 
     return (
