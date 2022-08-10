@@ -1,14 +1,35 @@
 import React from "react";
 import Question from "./Question";
 import { nanoid } from "nanoid";
+import { StatusContext } from "../Helper/Context";
 
-export default function GameScreen(){
+
+export default function GameScreen(props){
     const [questionList, setQuestionList] = React.useState()
     const [check, setCheck] = React.useState([{bool:false},{num:0}])
     const [playAnother, setPlayAnother] = React.useState(false)
+    const {difficulty, category} = React.useContext(StatusContext)
+    const [difficultyValue] = difficulty
+    const [categoryValue] = category
+
+    let BaseURL = ""
+
+    if (difficultyValue === "Any Difficulty" && categoryValue === "Any Category"){
+      BaseURL = "https://opentdb.com/api.php?amount=5"
+    }
+    else if (difficultyValue !== "Any Difficulty" && categoryValue === "Any Category"){
+      BaseURL = `https://opentdb.com/api.php?amount=5&difficulty=${difficultyValue}`
+    }
+    else if (difficultyValue === "Any Difficulty" && categoryValue !== "Any Category"){
+      BaseURL = `https://opentdb.com/api.php?amount=5&category=${categoryValue}`
+    }
+    else if (difficultyValue !== "Any Difficulty" && categoryValue !== "Any Category"){
+      BaseURL = `https://opentdb.com/api.php?amount=5&category=${categoryValue}&difficulty=${difficultyValue}`
+    }
+
 
     React.useEffect(() => {
-        fetch("https://opentdb.com/api.php?amount=5")
+        fetch(BaseURL)
         .then(res => res.json())
         .then(data => {
             setQuestionList((data.results).map(ele => {
@@ -21,7 +42,7 @@ export default function GameScreen(){
                         correct:decodeHtml(ele.correct_answer)}
             }))
         })
-    },[playAnother])
+    },[playAnother]) // eslint-disable-line react-hooks/exhaustive-deps
 
     
 
@@ -44,7 +65,7 @@ export default function GameScreen(){
     let questionElements = []
     if (questionList !== undefined) {
         questionList.map(ele => {
-                questionElements.push(
+          return questionElements.push(
                 <Question
                     key={nanoid()}
                     question={ele.question} 

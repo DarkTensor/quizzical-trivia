@@ -11,12 +11,40 @@ body{
     background-repeat: no-repeat;
 }
 
+.difficulty-selector{
+    margin-left:10px;
+    margin-right: 4px;
+}
+
+.category-selector{
+    margin-left: 20px;
+    margin-right: 4px;
+}
+
+.difficulty-dropdown{
+    padding: 6px 20px;
+    border-radius: 15px;
+
+}
+
+.category-dropdown{
+    padding: 6px 20px;
+    border-radius: 15px;
+
+
+}
+
 .start-screen-container{
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     flex-direction: column;
+}
+
+.button-select-container{
+    display: flex;
+    align-items: center;
 }
 
 .quizzical{
